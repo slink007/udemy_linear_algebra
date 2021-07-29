@@ -1,0 +1,5 @@
+This contains code that goes along with the course "Complete linear algebra: theory and implementation" which is found on the Udemy platform.
+
+Some of it is code which is specifically asked for in the course and other parts are just things inspired by the course.
+
+It was a conscious design choice to use regular Python here instead of Numpy.  The reason was that the point of this course, and the programming assignments associated with it, is to learn linear algebra.  Numpy does so much of that thing for you that I didn't feel as though I would learn as much linear algebra if I used Numpy.
