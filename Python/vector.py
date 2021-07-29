@@ -1,4 +1,8 @@
 class Vector(object):
+    """
+    A Vector is an ordered group of two or more numbers.
+    """
+
     def __init__(self, elements):
         try:
             if not elements:
@@ -52,8 +56,16 @@ class Vector(object):
 
     def __add__(self, v):
         if self.dimension != v.dimension:
-            raise IndexError("Vectors must be same size to be added.")
+            raise IndexError("Vectors must be same size.")
         temp = [self.elements[i] + v.elements[i] for i, j in
+                enumerate(self.elements)]
+        return Vector(temp)
+
+
+    def __sub__(self, v):
+        if self.dimension != v.dimension:
+            raise IndexError("Vectors must be same size.")
+        temp = [self.elements[i] - v.elements[i] for i, j in
                 enumerate(self.elements)]
         return Vector(temp)
 
@@ -71,3 +83,5 @@ if __name__ == "__main__":
     print(v1)
 
     print(v1 + v2)
+    v2 = Vector([2, 4, 6])
+    print(v4 - v1)
