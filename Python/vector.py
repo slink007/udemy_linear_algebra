@@ -65,9 +65,23 @@ class Vector(object):
     def __sub__(self, v):
         if self.dimension != v.dimension:
             raise IndexError("Vectors must be same size.")
+        """
         temp = [self.elements[i] - v.elements[i] for i, j in
                 enumerate(self.elements)]
-        return Vector(temp)
+        return Vector(temp)"""
+        return self.__add__(v.scale(-1))
+
+
+    def scale(self, k):
+        """
+        Returns a Vector where all elements are scaled up/down  by the
+        constant 'k'.
+        """
+        if not isinstance(k, Number):
+            raise TypeError('Scalar needs to be a number')
+        
+        new_elements = [k * e for e in self.elements]
+        return Vector(new_elements)
 
 
 if __name__ == "__main__":
