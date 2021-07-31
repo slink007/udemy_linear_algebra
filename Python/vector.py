@@ -12,12 +12,10 @@ class Vector(object):
             self.dimension = len(elements)
             if self.dimension < 2:
                 raise IndexError
-            base_type = type(self.elements[0])
-
-            # While vectors can contain many types of elements all elements
-            # within the same vector must be of the same type.
-            for e in self.elements[1:]:
-                assert base_type == type(e)
+            
+            # For my purposes a Vecctor contains only numbers
+            for e in self.elements:
+                assert (type(e) == int) or (type(e) == float) 
 
         except ValueError:
             raise ValueError("Require elements to form vector")
@@ -26,7 +24,7 @@ class Vector(object):
         except IndexError:
             raise IndexError("Vector requires at least two elements")
         except AssertionError:
-            raise TypeError("All elements must be of the same type")
+            raise TypeError("All elements must numbers")
 
         self.index = -1
 
