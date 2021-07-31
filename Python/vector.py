@@ -82,20 +82,3 @@ class Vector(object):
         
         new_elements = [k * e for e in self.elements]
         return Vector(new_elements)
-
-
-if __name__ == "__main__":
-    v1 = Vector([1, 2, 3])
-    v2 = Vector([1, 2, 3])
-    v3 = Vector([1, 2, 4])
-    v4 = Vector([1, 2, 3, 4])
-    print("v1 == v2: {}".format(v1 == v2))
-    print("v1 == v3: {}".format(v1 == v3))
-    print("v1 == v4: {}".format(v1 == v4))
-
-    print(type(v1))
-    print(v1)
-
-    print(v1 + v2)
-    v2 = Vector([2, 4, 6])
-    print(v4 - v1)
