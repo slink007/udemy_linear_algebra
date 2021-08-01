@@ -86,6 +86,11 @@ class TestVector(unittest.TestCase):
         # Verify that dot product can be done on two Vectors
         self.assertEqual(self.v1 @ self.v2, 32)
 
+    def test_magnitude(self):
+        # Verify correct magnitude of a vector
+        self.assertEqual(Vector([3, 4]).magnitude(), 5)
+        self.assertEqual(Vector([6, -8]).magnitude(), 10)
+
 
 if __name__ == "__main__":
     unittest.main()

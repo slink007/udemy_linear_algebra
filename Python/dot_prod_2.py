@@ -8,7 +8,10 @@ and find the dot products (V1 dot V2 and V2 dot V1).  I chose to not do
 it that way as we don't submit these for grades and most of the work
 is already done in dot_prod_1.py.  
 
-Now we simply do the dot products and visually inspect the results.
+Now we simply do the dot products, put the results into Vectors, take
+the difference, and display the results.  Since the resulting Vector
+contains only zeroes you know that we got the same result regardless of
+which order the dot products were done in.
 """
 from random import seed
 from random import gauss
@@ -34,5 +37,6 @@ def gen_matrix():
 m1 = gen_matrix()
 m2 = gen_matrix()
 
-print("First set:\n{}\n".format([m1[v] @ m2[v] for v in range(NUMBER_VECTORS)]))
-print("Second set:\n{}".format([m2[v] @ m1[v] for v in range(NUMBER_VECTORS)]))
+v1 = Vector([m1[v] @ m2[v] for v in range(NUMBER_VECTORS)])
+v2 = Vector([m2[v] @ m1[v] for v in range(NUMBER_VECTORS)])
+print(v2 - v1)

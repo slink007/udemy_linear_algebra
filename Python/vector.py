@@ -1,4 +1,5 @@
 from numbers import Complex
+from math import sqrt
 
 
 class Vector(object):
@@ -77,7 +78,7 @@ class Vector(object):
 
     def scale(self, k):
         """
-        Returns a Vector where all elements are scaled up/down  by the
+        Returns a Vector where all elements are scaled up/down by the
         constant 'k'.
         """
         if not isinstance(k, Complex):
@@ -85,3 +86,9 @@ class Vector(object):
 
         new_elements = [k * e for e in self.elements]
         return Vector(new_elements)
+
+    def magnitude(self):
+        """
+        Finds the magnitude of the Vector and returns it.
+        """
+        return sqrt(self.__matmul__(Vector(self.elements)))
