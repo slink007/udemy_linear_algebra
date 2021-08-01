@@ -36,10 +36,56 @@ class TestVector(unittest.TestCase):
         # Verify we can add Vectors.
         self.assertEqual(self.v1 + self.v2, Vector([5, 7, 9]))
         self.assertEqual(self.v2 + self.v1, Vector([5, 7, 9]))
+        self.assertEqual(self.v1 + self.v5, Vector([2, 2, 2.0]))
 
         # Verify that vectors have to be the same size to be added.
         self.assertRaises(IndexError, lambda: self.v1 + self.v3)
         self.assertRaises(IndexError, lambda: self.v3 + self.v1)
+
+        # Verify that Vectors cannot add other iterable types
+        self.assertRaises(TypeError, lambda: self.v1 + [3, 4, 5])
+
+
+    def test_subtraction(self):
+        # Verify we can subtract Vectors.
+        self.assertEqual(self.v1 - self.v2, Vector([-3, -3, -3]))
+        self.assertEqual(self.v2 - self.v1, Vector([3, 3, 3]))
+        self.assertEqual(self.v1 - self.v5, Vector([0, 2, 4.0]))
+
+        # Verify that vectors have to be the same size to be subtracted.
+        self.assertRaises(IndexError, lambda: self.v1 - self.v3)
+        self.assertRaises(IndexError, lambda: self.v3 - self.v1)
+
+        # Verify that Vectors cannot subtract other iterable types
+        self.assertRaises(TypeError, lambda: self.v1 - [3, 4, 5])
+
+
+    def test_scale(self):
+        # Verify that scalar must be a number
+        x = [6, 7]
+        y = tuple(x)
+        self.assertRaises(TypeError, lambda: self.v1.scale('x'))
+        self.assertRaises(TypeError, lambda: self.v1.scale(x))
+        self.assertRaises(TypeError, lambda: self.v1.scale(y))
+
+        # Verify that Vectors can be scaled up/down
+        self.assertEqual(self.v1.scale(2), Vector([2, 4, 6]))
+        self.assertEqual(self.v1.scale(0.5), Vector([0.5, 1.0, 1.5]))
+
+    def test_dot_prod(self):
+        # Verify a Vector is needed for dot product
+        self.assertRaises(TypeError, lambda: self.v1 @ [1, 2, 3])
+        self.assertRaises(TypeError, lambda: self.v1 @ 'string')
+        self.assertRaises(TypeError, lambda: self.v1 @ tuple([1, 2, 3]))
+        self.assertRaises(TypeError, lambda: self.v1 @ 3.14)
+
+        # Verify that Vectors must be same size for dot product
+        self.assertRaises(IndexError, lambda: self.v1 @ self.v3)
+        self.assertRaises(IndexError, lambda: self.v3 @ self.v1)
+
+        # Verify that dot product can be done on two Vectors
+        self.assertEqual(self.v1 @ self.v2, 32)
+
 
 if __name__ == "__main__":
     unittest.main()
