@@ -91,6 +91,16 @@ class TestVector(unittest.TestCase):
         self.assertEqual(Vector([3, 4]).magnitude(), 5)
         self.assertEqual(Vector([6, -8]).magnitude(), 10)
 
+    def test_angle(self):
+        # Verify that another Vector is needed to find the angle
+        self.assertRaises(TypeError, lambda: self.v1.angle(75))
+        self.assertRaises(TypeError, lambda: self.v1.angle('string'))
+        self.assertRaises(TypeError, lambda: self.v1.angle([2, 3, 4]))
+
+        v1 = Vector([1, 2, -1])
+        v2 = Vector([3, 1, 0])
+        self.assertEqual(v1.angle(v2), 49.79703411343022)
+
 
 if __name__ == "__main__":
     unittest.main()

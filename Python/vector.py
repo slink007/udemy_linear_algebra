@@ -1,5 +1,5 @@
 from numbers import Complex
-from math import sqrt
+import math
 
 
 class Vector(object):
@@ -91,4 +91,18 @@ class Vector(object):
         """
         Finds the magnitude of the Vector and returns it.
         """
-        return sqrt(self.__matmul__(Vector(self.elements)))
+        return math.sqrt(self.__matmul__(Vector(self.elements)))
+    
+    def angle(self, v):
+        """
+        Finds the angle between this Vector and Vector 'v'
+        and returns it in degrees.
+        """
+        if not isinstance(v, Vector):
+            raise TypeError("Other item must be Vector")
+        top = self.__matmul__(v)
+        bottom = self.magnitude() * v.magnitude()
+        angle = math.acos(top / bottom)
+        # We express our angles in degrees, the way that God
+        # intended for it to be.
+        return math.degrees(angle)
