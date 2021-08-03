@@ -9,6 +9,9 @@ class TestVector(unittest.TestCase):
     v3 = Vector([1, 2, 3, 4])
     v4 = Vector([1.0, 2.0, 3.0])
     v5 = Vector([1, 0, -1.0])
+    v6 = Vector([3, complex(4, 5)])
+    v7 = Vector([1, 2])
+
     
     # unittest requires all methods begin with 'test_'
     def test_creation(self):
@@ -38,6 +41,10 @@ class TestVector(unittest.TestCase):
         self.assertEqual(self.v2 + self.v1, Vector([5, 7, 9]))
         self.assertEqual(self.v1 + self.v5, Vector([2, 2, 2.0]))
 
+        # Verify that Vectors containing complex numbers can be added.
+        self.assertEqual(self.v6 + self.v7, Vector([4, complex(6, 5)]))
+
+
         # Verify that vectors have to be the same size to be added.
         self.assertRaises(IndexError, lambda: self.v1 + self.v3)
         self.assertRaises(IndexError, lambda: self.v3 + self.v1)
@@ -51,6 +58,9 @@ class TestVector(unittest.TestCase):
         self.assertEqual(self.v1 - self.v2, Vector([-3, -3, -3]))
         self.assertEqual(self.v2 - self.v1, Vector([3, 3, 3]))
         self.assertEqual(self.v1 - self.v5, Vector([0, 2, 4.0]))
+
+        # Verify that Vectors containing complex numbers can be subtracted.
+        self.assertEqual(self.v7 - self.v6, Vector([-2, complex(-2, -5)]))
 
         # Verify that vectors have to be the same size to be subtracted.
         self.assertRaises(IndexError, lambda: self.v1 - self.v3)
@@ -86,6 +96,10 @@ class TestVector(unittest.TestCase):
         # Verify that dot product can be done on two Vectors
         self.assertEqual(self.v1 @ self.v2, 32)
 
+        # Verify that dot product can be done when Vectors contain imaginary
+        # numbers.
+        self.assertEqual(self.v6 @ self.v7, complex(11, 10))
+
     def test_magnitude(self):
         # Verify correct magnitude of a vector
         self.assertEqual(Vector([3, 4]).magnitude(), 5)
@@ -101,6 +115,22 @@ class TestVector(unittest.TestCase):
         v2 = Vector([3, 1, 0])
         self.assertEqual(v1.angle(v2), 49.79703411343022)
 
+    def test_unit(self):
+        # Verify that we do not produce a unit vector from a vector that
+        # has zero magnitude.
+        zero = Vector([0, 0])
+        self.assertRaises(ZeroDivisionError, lambda: zero.unit())
+
+        # Verify that we can produce a unit vector.
+        v = Vector([17.32, -10, -28])
+        self.assertEqual(v.unit(), Vector([0.5033560169342258,
+                                           -0.2906212568904306,
+                                           -0.8137395192932058]))
+        vu = v.unit()
+        # Used AlmostEqual because Equal failed and said that
+        # 0.99999999 != 1
+        # Which is true, but c'mon man....
+        self.assertAlmostEqual(vu.magnitude(), 1)
 
 if __name__ == "__main__":
     unittest.main()

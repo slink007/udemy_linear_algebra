@@ -12,14 +12,16 @@ class Vector(object):
             if not elements:
                 raise ValueError
             # Better to use a list?  Would number of elements ever change?
+            # If not maybe scale method could just alter the current Vector
+            # in place.
             self.elements = tuple(elements)
             self.dimension = len(elements)
             if self.dimension < 2:
                 raise IndexError
 
-            # For my purposes a Vecctor contains only numbers
+            # For my purposes a Vector contains only numbers
             for e in self.elements:
-                assert (type(e) == int) or (type(e) == float)
+                assert isinstance(e, Complex)
 
         except ValueError:
             raise ValueError("Require elements to form vector")
@@ -42,10 +44,13 @@ class Vector(object):
         raise StopIteration
 
     def __str__(self):
+        # Better to limit number of digits to 3 or 4?
         return 'Vector: {}'.format(self.elements)
 
     def __eq__(self, v):
         # Better to raise error instead of returning False?
+        # Better to limit this to a certain number of digits
+        # so we don't fail on something like 0.99999 != 1?
         if self.dimension != v.dimension:
             return False
         return all([self.elements[i] == v.elements[i] for i, j in
@@ -106,3 +111,15 @@ class Vector(object):
         # We express our angles in degrees, the way that God
         # intended for it to be.
         return math.degrees(angle)
+
+    def unit(self):
+        """
+        Finds the unit vector which is aligned with this Vector and
+        returns is as a new Vector object.
+        """
+        try:
+            magnitude = self.magnitude()
+            mu = 1 / magnitude
+        except ZeroDivisionError:
+            raise ZeroDivisionError("{} has no unit vector.".format(self))
+        return self.scale(mu)
