@@ -48,13 +48,14 @@ class Vector(object):
         return 'Vector: {}'.format(self.elements)
 
     def __eq__(self, v):
-        # Better to raise error instead of returning False?
-        # Better to limit this to a certain number of digits
-        # so we don't fail on something like 0.99999 != 1?
         if self.dimension != v.dimension:
             return False
-        return all([self.elements[i] == v.elements[i] for i, j in
-                    enumerate(self.elements)])
+        length = len(self.elements)
+        # Gets complicated (no pun intended) due to complex numbers.
+        # If numbers are within 6 sig. figures we're saying they're equal.
+        return all([(math.isclose(self.elements[i].real, v.elements[i].real, 
+            abs_tol=10**-6) and math.isclose(self.elements[i].imag, 
+            v.elements[i].imag, abs_tol=10**-6)) for i in range(length)])
 
     # Addition with '+' operator
     def __add__(self, v):
