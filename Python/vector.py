@@ -44,8 +44,12 @@ class Vector(object):
         raise StopIteration
 
     def __str__(self):
-        # Better to limit number of digits to 3 or 4?
-        return 'Vector: {}'.format(self.elements)
+        # Limiting to displaying 4 significant figures
+        string = "Vector: ("
+        string += '{:.4e}, '.format(self.elements[0])
+        for e in self.elements[1:]:
+            string += '{:.4e}, '.format(e)
+        return string[:-2] + ")"
 
     def __eq__(self, v):
         if self.dimension != v.dimension:
