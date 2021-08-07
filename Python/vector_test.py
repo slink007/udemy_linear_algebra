@@ -132,5 +132,16 @@ class TestVector(unittest.TestCase):
         # Which is true, but c'mon man....
         self.assertAlmostEqual(vu.magnitude(), 1)
 
+    def test_cross(self):
+        # Verify that both Vectors need to be 3D to perform cross prod.
+        self.assertRaises(IndexError, lambda: self.v1.cross(self.v7))
+        self.assertRaises(IndexError, lambda: self.v7.cross(self.v1))
+        self.assertRaises(IndexError, lambda: self.v1.cross(self.v3))
+        self.assertRaises(IndexError, lambda: self.v3.cross(self.v1))
+
+        # Verify that we can perform a cross product of two Vectors
+        self.assertEqual(Vector([5, 3, -2]).cross(Vector([-1, 0, 3])),
+            Vector([9, -13, 3]))
+
 if __name__ == "__main__":
     unittest.main()

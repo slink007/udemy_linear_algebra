@@ -123,3 +123,20 @@ class Vector(object):
         except ZeroDivisionError:
             raise ZeroDivisionError("{} has no unit vector.".format(self))
         return self.scale(mu)
+
+    def cross(self, v):
+        """
+        Returns a Vector which is the result of the cross product of 
+        this Vector and Vector 'v'.
+        """
+        SIZE_MSG = "Cross product only valid for 3D Vector"
+        
+        if self.dimension != 3 or v.dimension != 3:
+            raise IndexError(SIZE_MSG)
+        first = (self.elements[1] * v.elements[2]) -\
+            (self.elements[2] * v.elements[1])
+        second = (self.elements[2] * v.elements[0]) -\
+            (self.elements[0] * v.elements[2])
+        third = (self.elements[0] * v.elements[1]) -\
+            (self.elements[1] * v.elements[0])
+        return Vector([first, second, third])
