@@ -34,14 +34,17 @@ class Vector(object):
 
         self.index = -1
 
+
     def __iter__(self):
         return self
+
 
     def __next__(self):
         self.index += 1
         if self.index < self.dimension:
             return self.elements[self.index]
         raise StopIteration
+
 
     def __str__(self):
         # Limiting to displaying 4 significant figures
@@ -51,15 +54,23 @@ class Vector(object):
             string += '{:.4e}, '.format(e)
         return string[:-2] + ")"
 
+
     def __eq__(self, v):
-        if self.dimension != v.dimension:
-            return False
-        length = len(self.elements)
-        # Gets complicated (no pun intended) due to complex numbers.
-        # If numbers are within 6 sig. figures we're saying they're equal.
-        return all([(math.isclose(self.elements[i].real, v.elements[i].real, 
-            abs_tol=10**-6) and math.isclose(self.elements[i].imag, 
-            v.elements[i].imag, abs_tol=10**-6)) for i in range(length)])
+        if (isinstance(v, Vector)):
+            if self.dimension != v.dimension:
+                return False
+            length = len(self.elements)
+            # Gets complicated (no pun intended) due to complex numbers.
+            # If numbers are within 6 sig. figures we're saying they're equal.
+            return all([(math.isclose(self.elements[i].real, v.elements[i].real, 
+                abs_tol=10**-6) and math.isclose(self.elements[i].imag, 
+                v.elements[i].imag, abs_tol=10**-6)) for i in range(length)])
+        return False
+
+
+    def __getitem__(self, i):
+        return self.elements[i]
+
 
     # Addition with '+' operator
     def __add__(self, v):
@@ -71,11 +82,13 @@ class Vector(object):
                 enumerate(self.elements)]
         return Vector(temp)
 
+
     # Subtraction with '-' operator
     def __sub__(self, v):
         if not isinstance(v, Vector):
             raise TypeError("Other item must be Vector")
         return self.__add__(v.scale(-1))
+
 
     # Dot product with '@' operator
     def __matmul__(self, v):
@@ -85,6 +98,7 @@ class Vector(object):
             raise IndexError("Vectors must be same size")
         return sum([self.elements[i] * v.elements[i] for i in
                    range(self.dimension)])
+
 
     def scale(self, k):
         """
@@ -97,11 +111,13 @@ class Vector(object):
         new_elements = [k * e for e in self.elements]
         return Vector(new_elements)
 
+
     def magnitude(self):
         """
         Finds the magnitude of the Vector and returns it.
         """
         return math.sqrt(self.__matmul__(Vector(self.elements)))
+
     
     def angle(self, v):
         """
@@ -117,6 +133,7 @@ class Vector(object):
         # intended for it to be.
         return math.degrees(angle)
 
+
     def unit(self):
         """
         Finds the unit vector which is aligned with this Vector and
@@ -128,6 +145,7 @@ class Vector(object):
         except ZeroDivisionError:
             raise ZeroDivisionError("{} has no unit vector.".format(self))
         return self.scale(mu)
+
 
     def cross(self, v):
         """

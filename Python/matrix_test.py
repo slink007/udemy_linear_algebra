@@ -9,12 +9,14 @@ class TestMatrix(unittest.TestCase):
         self.v1 = Vector([-1, 0, 1, 42])
         self.v2 = Vector([-1, 0, 1])
         self.v3 = Vector([-10, 1, 10])
-    
+
+
     def tearDown(self):
         del self.v1
         del self.v2
         del self.v3
-        
+
+
     def test_creation(self):
         # Verify that creation of an empty Matrix is not allowed
         self.assertRaises(IndexError, lambda: Matrix())
@@ -57,5 +59,14 @@ class TestMatrix(unittest.TestCase):
         self.assertEqual(m2.rows, len(v_tup))
         self.assertEqual(m2.columns, self.v2.dimension)
 
+
+    def test_addition(self):
+        # Verify we can add Matrices.
+        sum1 = self.v1 + self.v1
+        print(sum1)
+        m1 = Matrix([self.v1, self.v1])
+        m2 = Matrix([self.v1, self.v1])
+        self.assertEqual(m1 + m2, Matrix([sum1, sum1]))
+        
 if __name__ == "__main__":
     unittest.main()
