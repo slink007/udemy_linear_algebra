@@ -5,13 +5,13 @@ class Matrix(object):
     """
     A Matrix is a list of Vector objects.  Each row in the Matrix is a Vector.
     """
-    
-    def __init__(self, rows = None):
+
+    def __init__(self, rows=None):
         if rows is None:
             raise IndexError("Need Vector or list of Vectors to form Matrix.")
         self.columns = 0
         self.rows = 0
-        
+
         try:
             # Creation via list or tuple of Vectors
             if (isinstance(rows, list) or isinstance(rows, tuple)):
@@ -24,15 +24,15 @@ class Matrix(object):
                     assert self.columns == r.dimension
                 self.rows = len(rows)
                 self.row_list = [r for r in rows]
-                    
+
             # Creation via single Vector
             if (isinstance(rows, Vector)):
                 self.columns = rows.dimension
                 self.rows = 1
-                self.row_list = [rows,]
+                self.row_list = [rows, ]
         except AssertionError:
-            raise TypeError("Need Vector or list of Vectors and all Vectors" +\
-                " must be same size.")
+            raise TypeError("Need Vector or list of Vectors and all Vectors" +
+                        " must be same size.")
 
         # Input was not a Vector or list/tuple of Vectors
         if self.columns == 0:
@@ -43,15 +43,31 @@ class Matrix(object):
         return self.row_list[i]
 
 
-    # Addition with '+' operator
+    def __eq__(self, m):
+        """
+        Compare two matrices with == operator.  Return True if equal, False
+        if not.
+        """
+        if not isinstance(m, Matrix):
+            return False
+        if self.rows != m.rows:
+            return False
+        comparison = [self.row_list[i] == m.row_list[i] for i in range(self.rows)]
+        return all(comparison)
+
+
     def __add__(self, m):
+        """
+        Adds this Matrix to Matrix M with the '+' operator.  Returns the result
+        as a new Matrix.
+        """
         if not isinstance(m, Matrix):
             raise TypeError("Matrix must add to Matrix")
         try:
             if self.rows != m.rows:
                 raise IndexError
-            new_rows = [self.row_list[i] + m.row_list[i] for i in 
-                range(self.rows)]
+            new_rows = [self.row_list[i] + m.row_list[i] for i in
+                        range(self.rows)]
         except IndexError:
             raise IndexError("Matrices must be same size to add")
 
