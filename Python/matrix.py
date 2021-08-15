@@ -7,7 +7,7 @@ class Matrix(object):
     """
     
     def __init__(self, rows = None):
-        if rows == None:
+        if rows is None:
             raise IndexError("Need Vector or list of Vectors to form Matrix.")
         self.columns = 0
         self.rows = 0
@@ -23,12 +23,12 @@ class Matrix(object):
                     assert self.columns == r.dimension
                 self.rows = len(rows)
                     
-            if (isinstance(rows, Vector):
+            if (isinstance(rows, Vector)):
                 self.columns = rows.dimension
                 self.rows = 1
         except AssertionError:
             raise TypeError("Need Vector or list of Vectors and all Vectors" +\
-                "must be same size.")
+                " must be same size.")
 
         # Input was not a Vector or list/tuple of Vectors
         if self.columns == 0:
