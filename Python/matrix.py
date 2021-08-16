@@ -72,3 +72,14 @@ class Matrix(object):
             raise IndexError("Matrices must be same size to add")
 
         return Matrix(new_rows)
+
+
+    def scale(self, k):
+        """
+        Scales each element within this Matrix by the value 'k' and returns
+        the result as a new Matrix.  Since each row of Matrix is a Vector we
+        just let Vector code do the checking and scaling.  This includes
+        letting TypeError bubble up in case 'k' is not a number.
+        """
+        new_rows = [r.scale(k) for r in self.row_list]
+        return Matrix(new_rows)
