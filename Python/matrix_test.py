@@ -9,12 +9,20 @@ class TestMatrix(unittest.TestCase):
         self.v1 = Vector([-1, 0, 1, 42])
         self.v2 = Vector([-1, 0, 1])
         self.v3 = Vector([-10, 1, 10])
+        self.m1 = Matrix([self.v2, self.v3])
+        self.m2 = Matrix([self.v2, self.v3])
+        self.m3 = Matrix([self.v2, self.v3, self.v3])
+        self.m4 = Matrix([self.v1, self.v1])
 
 
     def tearDown(self):
         del self.v1
         del self.v2
         del self.v3
+        del self.m1
+        del self.m2
+        del self.m3
+        del self.m4
 
 
     def test_creation(self):
@@ -86,6 +94,29 @@ class TestMatrix(unittest.TestCase):
         # Verify that two equal Matrices are reported being equal
         self.assertEqual(Matrix([self.v2, self.v3]),
                          Matrix([self.v2, self.v3]))
+
+    def test_add(self):
+        # Verify that Matrices can only add to other Matrices
+        self.assertRaises(TypeError, lambda: self.m1 + 1)
+        self.assertRaises(TypeError, lambda: self.m1 + -1.0)
+        self.assertRaises(TypeError, lambda: self.m1 + 'text')
+        self.assertRaises(TypeError, lambda: self.m1 + None)
+        self.assertRaises(TypeError, lambda: self.m1 + self.v1)
+        
+        # Verify that Matrices with diff. rows do not add
+        self.assertRaises(IndexError, lambda: self.m2 + self.m3)
+        self.assertRaises(IndexError, lambda: self.m3 + self.m2)
+
+        # Verify that Matrices with same number of rows, but diff.
+        # number of columns, do not add.
+        self.assertRaises(IndexError, lambda: self.m2 + self.m4)
+        self.assertRaises(IndexError, lambda: self.m4 + self.m2)
+
+        # Verify that Matrices of like size do add
+        self.assertEqual(Matrix([Vector([-1, 0, 1]), Vector([2, 3, 4])]) + 
+            Matrix([Vector([5, 6, 7]), Vector([8, 9, 10])]),
+                Matrix([Vector([4, 6, 8]), Vector([10, 12, 14])]))
+
 
 if __name__ == "__main__":
     unittest.main()
