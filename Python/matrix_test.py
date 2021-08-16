@@ -117,6 +117,16 @@ class TestMatrix(unittest.TestCase):
             Matrix([Vector([5, 6, 7]), Vector([8, 9, 10])]),
                 Matrix([Vector([4, 6, 8]), Vector([10, 12, 14])]))
 
+    def test_scale(self):
+        # Verify that non-numeric scales are not permitted
+        self.assertRaises(TypeError, lambda: self.m1.scale('text'))
+        self.assertRaises(TypeError, lambda: self.m1.scale([1, 2, 3]))
+        self.assertRaises(TypeError, lambda: self.m1.scale(None))
+
+        # Verify that Matrix scales correctly
+        self.assertEqual(self.m1.scale(2), Matrix([Vector([-2, 0, 2]),
+                    Vector([-20, 2, 20])]))
+
 
 if __name__ == "__main__":
     unittest.main()
