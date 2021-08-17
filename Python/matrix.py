@@ -32,7 +32,7 @@ class Matrix(object):
                 self.row_list = [rows, ]
         except AssertionError:
             raise TypeError("Need Vector or list of Vectors and all Vectors" +
-                        " must be same size.")
+                            " must be same size.")
 
         # Input was not a Vector or list/tuple of Vectors
         if self.columns == 0:
@@ -52,7 +52,8 @@ class Matrix(object):
             return False
         if self.rows != m.rows:
             return False
-        comparison = [self.row_list[i] == m.row_list[i] for i in range(self.rows)]
+        comparison = [self.row_list[i] == m.row_list[i] for i in
+                      range(self.rows)]
         return all(comparison)
 
 

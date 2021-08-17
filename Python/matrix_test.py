@@ -102,7 +102,7 @@ class TestMatrix(unittest.TestCase):
         self.assertRaises(TypeError, lambda: self.m1 + 'text')
         self.assertRaises(TypeError, lambda: self.m1 + None)
         self.assertRaises(TypeError, lambda: self.m1 + self.v1)
-        
+
         # Verify that Matrices with diff. rows do not add
         self.assertRaises(IndexError, lambda: self.m2 + self.m3)
         self.assertRaises(IndexError, lambda: self.m3 + self.m2)
@@ -113,9 +113,9 @@ class TestMatrix(unittest.TestCase):
         self.assertRaises(IndexError, lambda: self.m4 + self.m2)
 
         # Verify that Matrices of like size do add
-        self.assertEqual(Matrix([Vector([-1, 0, 1]), Vector([2, 3, 4])]) + 
-            Matrix([Vector([5, 6, 7]), Vector([8, 9, 10])]),
-                Matrix([Vector([4, 6, 8]), Vector([10, 12, 14])]))
+        self.assertEqual(Matrix([Vector([-1, 0, 1]), Vector([2, 3, 4])]) +
+                         Matrix([Vector([5, 6, 7]), Vector([8, 9, 10])]),
+                         Matrix([Vector([4, 6, 8]), Vector([10, 12, 14])]))
 
     def test_scale(self):
         # Verify that non-numeric scales are not permitted
@@ -125,7 +125,7 @@ class TestMatrix(unittest.TestCase):
 
         # Verify that Matrix scales correctly
         self.assertEqual(self.m1.scale(2), Matrix([Vector([-2, 0, 2]),
-                    Vector([-20, 2, 20])]))
+                                                   Vector([-20, 2, 20])]))
 
 
 if __name__ == "__main__":
