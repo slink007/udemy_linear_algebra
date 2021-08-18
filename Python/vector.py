@@ -1,6 +1,6 @@
 from numbers import Complex
 import math
-from random import seed, randint
+from random import seed, randint, random
 
 
 class Vector(object):
@@ -62,9 +62,10 @@ class Vector(object):
             length = len(self.elements)
             # Gets complicated (no pun intended) due to complex numbers.
             # If numbers are within 6 sig. figures we're saying they're equal.
-            return all([(math.isclose(self.elements[i].real, v.elements[i].real, 
-                abs_tol=10**-6) and math.isclose(self.elements[i].imag, 
-                v.elements[i].imag, abs_tol=10**-6)) for i in range(length)])
+            return all([(math.isclose(self.elements[i].real, v.elements[i].real,
+                        abs_tol=10**-6) and math.isclose(self.elements[i].imag,
+                        v.elements[i].imag, abs_tol=10**-6)) for i in
+                        range(length)])
         return False
 
 
@@ -72,8 +73,12 @@ class Vector(object):
         return self.elements[i]
 
 
-    # Addition with '+' operator
     def __add__(self, v):
+        """
+        Use '+' operator to add Vectors.  Result is returned as a new Vector
+        whose elements are the sum of this Vector's elements and the elements
+        of Vector 'v'.
+        """
         if not isinstance(v, Vector):
             raise TypeError("Other item must be Vector")
         if self.dimension != v.dimension:
@@ -83,15 +88,22 @@ class Vector(object):
         return Vector(temp)
 
 
-    # Subtraction with '-' operator
     def __sub__(self, v):
+        """
+        Use '-' operator to subtract Vectors.  Result is returned as a new
+        Vector whose elements are the difference of this Vector's elements and
+        the elements of Vector 'v'.
+        """
         if not isinstance(v, Vector):
             raise TypeError("Other item must be Vector")
         return self.__add__(v.scale(-1))
 
 
-    # Dot product with '@' operator
     def __matmul__(self, v):
+        """
+        Use '@' operator to perform a dot product on two Vectors.  Result is
+        returned as an integer.
+        """
         if not isinstance(v, Vector):
             raise TypeError("Other item must be Vector")
         if self.dimension != v.dimension:
@@ -118,7 +130,7 @@ class Vector(object):
         """
         return math.sqrt(self.__matmul__(Vector(self.elements)))
 
-    
+
     def angle(self, v):
         """
         Finds the angle between this Vector and Vector 'v'
@@ -149,11 +161,11 @@ class Vector(object):
 
     def cross(self, v):
         """
-        Returns a Vector which is the result of the cross product of 
+        Returns a Vector which is the result of the cross product of
         this Vector and Vector 'v'.
         """
         SIZE_MSG = "Cross product only valid for 3D Vector"
-        
+
         if self.dimension != 3 or v.dimension != 3:
             raise IndexError(SIZE_MSG)
         first = (self.elements[1] * v.elements[2]) -\
@@ -167,29 +179,28 @@ class Vector(object):
 
 class RandomVector(Vector):
     """
-    A RandomVector is like a Vector except that instead of specifying the 
-    contents we only specify the quantity of elements, and the type, and 
+    A RandomVector is like a Vector except that instead of specifying the
+    contents we only specify the quantity of elements, and the type, and
     the RandomVector is filled with that quantity of the specified type of
     element.
     """
-    
+
     def __init__(self, quantity=2, element_type='int'):
-        self.lower_int = -100
-        self.upper_int = 100
-        
-        if not isinstance(element_type, str):
-            raise TypeError("{} is not a supported element type"\
-                .format(element_type))
+        try:
+            assert isinstance(element_type, str)
+            element_type = element_type.lower()
+            assert element_type in ('int', 'float')
+        except AssertionError:
+            raise TypeError("{} is not a supported element type"
+                            .format(element_type))
         if not isinstance(quantity, int):
             raise TypeError("Must use int for quantity")
         if quantity < 2:
             raise ValueError("Need at least 2 values")
-        # x = [(-100.0 + (random.random() * 200.0)) for _ in range(10)]
-        # fix testing for element_type
-        
-        element_type = element_type.lower()
+
         seed()
         if element_type == 'int':
-            values = [randint(self.lower_int, self.upper_int) 
-                        for _ in range(quantity)]
+            values = [randint(-100, 100) for _ in range(quantity)]
+        else:
+            values = [(-100.0 + (random() * 200.0)) for _ in range(quantity)]
         super().__init__(values)

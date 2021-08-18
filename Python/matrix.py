@@ -63,7 +63,7 @@ class Matrix(object):
         as a new Matrix.
         """
         if not isinstance(m, Matrix):
-            raise TypeError("Matrix must add to Matrix")
+            raise TypeError("Other item must be a Matrix")
         try:
             if self.rows != m.rows:
                 raise IndexError
@@ -84,3 +84,11 @@ class Matrix(object):
         """
         new_rows = [r.scale(k) for r in self.row_list]
         return Matrix(new_rows)
+
+
+    def __sub__(self, m):
+        """
+        Subtract Matrix 'm' from this Matrix with the '-' operator.
+        Returns the result as a new Matrix.
+        """
+        return self.__add__(m.scale(-1))

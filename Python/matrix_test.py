@@ -13,6 +13,8 @@ class TestMatrix(unittest.TestCase):
         self.m2 = Matrix([self.v2, self.v3])
         self.m3 = Matrix([self.v2, self.v3, self.v3])
         self.m4 = Matrix([self.v1, self.v1])
+        self.m5 = Matrix([self.v2, self.v2])
+        self.m6 = Matrix([self.v3, self.v3])
 
 
     def tearDown(self):
@@ -23,6 +25,8 @@ class TestMatrix(unittest.TestCase):
         del self.m2
         del self.m3
         del self.m4
+        del self.m5
+        del self.m6
 
 
     def test_creation(self):
@@ -126,6 +130,12 @@ class TestMatrix(unittest.TestCase):
         # Verify that Matrix scales correctly
         self.assertEqual(self.m1.scale(2), Matrix([Vector([-2, 0, 2]),
                                                    Vector([-20, 2, 20])]))
+
+    def test_subtract(self):
+        # Subtraction is primarily done in the addition method (after scaling
+        # by -1) so not much testing here.
+        self.assertEqual(self.m5 - self.m6, Matrix([Vector([9, -1, -9]),
+                                                    Vector([9, -1, -9])]))
 
 
 if __name__ == "__main__":

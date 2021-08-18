@@ -173,6 +173,15 @@ class TestVector(unittest.TestCase):
             i = randint(3, 100)
         self.assertEqual(RandomVector(i).dimension, i)
         
+        # Verify that setting fill types works
+        rv = RandomVector(3, 'int')
+        for i in range(rv.dimension):
+            with self.subTest(i):
+                self.assertTrue(isinstance(rv.elements[i], int))
+        rv = RandomVector(3, 'float')
+        for i in range(rv.dimension):
+            with self.subTest(i):
+                self.assertTrue(isinstance(rv.elements[i], float))
 
 if __name__ == "__main__":
     unittest.main()
