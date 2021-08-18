@@ -1,5 +1,6 @@
 import unittest
 from vector import Vector, RandomVector
+from random import seed, randint
 
 
 # unittest requires CamelCase
@@ -157,6 +158,20 @@ class TestVector(unittest.TestCase):
         for i in range(rv.dimension):
             with self.subTest(i):
                 self.assertTrue(isinstance(rv.elements[i], int))
+
+
+    def test_random_size(self):
+        # Verify that size cannot be set too small
+        self.assertRaises(ValueError, lambda: RandomVector(1))
+        self.assertRaises(ValueError, lambda: RandomVector(0))
+        self.assertRaises(ValueError, lambda: RandomVector(-1))
+
+        # Verify that element quantity can be set
+        i = 0
+        seed()
+        while i < 3:
+            i = randint(3, 100)
+        self.assertEqual(RandomVector(i).dimension, i)
         
 
 if __name__ == "__main__":

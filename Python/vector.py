@@ -184,6 +184,8 @@ class RandomVector(Vector):
             raise TypeError("Must use int for quantity")
         if quantity < 2:
             raise ValueError("Need at least 2 values")
+        # x = [(-100.0 + (random.random() * 200.0)) for _ in range(10)]
+        # fix testing for element_type
         
         element_type = element_type.lower()
         seed()
