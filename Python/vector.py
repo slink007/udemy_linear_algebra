@@ -1,5 +1,6 @@
 from numbers import Complex
 import math
+from random import seed, randint
 
 
 class Vector(object):
@@ -47,11 +48,10 @@ class Vector(object):
 
 
     def __str__(self):
-        # Limiting to displaying 4 significant figures
         string = "Vector: ("
-        string += '{:.4e}, '.format(self.elements[0])
+        string += '{}, '.format(self.elements[0])
         for e in self.elements[1:]:
-            string += '{:.4e}, '.format(e)
+            string += '{}, '.format(e)
         return string[:-2] + ")"
 
 
@@ -163,3 +163,31 @@ class Vector(object):
         third = (self.elements[0] * v.elements[1]) -\
             (self.elements[1] * v.elements[0])
         return Vector([first, second, third])
+
+
+class RandomVector(Vector):
+    """
+    A RandomVector is like a Vector except that instead of specifying the 
+    contents we only specify the quantity of elements, and the type, and 
+    the RandomVector is filled with that quantity of the specified type of
+    element.
+    """
+    
+    def __init__(self, quantity=2, element_type='int'):
+        self.lower_int = -100
+        self.upper_int = 100
+        
+        if not isinstance(element_type, str):
+            raise TypeError("{} is not a supported element type"\
+                .format(element_type))
+        if not isinstance(quantity, int):
+            raise TypeError("Must use int for quantity")
+        if quantity < 2:
+            raise ValueError("Need at least 2 values")
+        
+        element_type = element_type.lower()
+        seed()
+        if element_type == 'int':
+            values = [randint(self.lower_int, self.upper_int) 
+                        for _ in range(quantity)]
+        super().__init__(values)

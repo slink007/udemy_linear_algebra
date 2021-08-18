@@ -1,5 +1,5 @@
 import unittest
-from vector import Vector
+from vector import Vector, RandomVector
 
 
 # unittest requires CamelCase
@@ -132,6 +132,7 @@ class TestVector(unittest.TestCase):
         # Which is true, but c'mon man....
         self.assertAlmostEqual(vu.magnitude(), 1)
 
+
     def test_cross(self):
         # Verify that both Vectors need to be 3D to perform cross prod.
         self.assertRaises(IndexError, lambda: self.v1.cross(self.v7))
@@ -142,6 +143,21 @@ class TestVector(unittest.TestCase):
         # Verify that we can perform a cross product of two Vectors
         self.assertEqual(Vector([5, 3, -2]).cross(Vector([-1, 0, 3])),
             Vector([9, -13, 3]))
+
+
+    def test_random_default(self):
+        # Verify that a RandomVector is a Vector
+        self.assertTrue(RandomVector(), Vector)
+        
+        # Verify that RandomVector defaults to 2 elements
+        self.assertEqual(RandomVector().dimension, 2)
+        
+        # Verify that RandomVector defaults to using integers
+        rv = RandomVector()
+        for i in range(rv.dimension):
+            with self.subTest(i):
+                self.assertTrue(isinstance(rv.elements[i], int))
+        
 
 if __name__ == "__main__":
     unittest.main()
