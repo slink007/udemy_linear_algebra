@@ -100,3 +100,29 @@ class Matrix(object):
         Returns the result as a new Matrix.
         """
         return self.__add__(m.scale(-1))
+
+
+    def identity(self):
+        """
+        Generates and returns an identity Matrix based on the dimensions of
+        this Matrix.
+        """
+        if self.columns != self.rows:
+            raise TypeError("Identity only valid on square Matrix")
+        new_rows = []
+        one_index = 0
+        for r in self.row_list:
+            temp = [0] * self.columns
+            temp[one_index] = 1
+            one_index += 1
+            new_rows.append(Vector(temp))
+        return Matrix(new_rows)
+
+
+    def shift(self, k):
+        """
+        Uses constsant 'k' to shift the Matrix.  Result is returned as new
+        Matrix.
+        """
+        m1 = self.identity()
+        return self.__add__(m1.scale(k))

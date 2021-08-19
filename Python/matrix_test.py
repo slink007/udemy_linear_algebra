@@ -137,6 +137,29 @@ class TestMatrix(unittest.TestCase):
         self.assertEqual(self.m5 - self.m6, Matrix([Vector([9, -1, -9]),
                                                     Vector([9, -1, -9])]))
 
+    def test_identity(self):
+        v = Vector([1, 2, 3])
+        w = Vector([4, 5, 6])
+        x = Vector([7, 8, 9])
+        m1 = Matrix([v, w])
+        m2 = Matrix([v, w, x])
+        
+        # Verify we do not create identity Matrix from non-square Matrix
+        self.assertRaises(TypeError, lambda: m1.identity())
+
+        # Verify that identity Matrix is correctly created
+        self.assertEqual(m2.identity(), Matrix([Vector([1, 0, 0]),
+                                                Vector([0, 1, 0]),
+                                                Vector([0, 0, 1])]))
+
+    def test_shift(self):
+        # Feature builds entirely off of other features tested here so only
+        # verify that the basic functionality works.
+        v = Vector([1, 2])
+        w = Vector([2, 4])
+        m1 = Matrix([v, w])
+        self.assertEqual(m1.shift(3), Matrix([Vector([4, 2]),
+                                              Vector([2, 7])]))
 
 if __name__ == "__main__":
     unittest.main()
