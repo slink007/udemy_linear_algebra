@@ -50,18 +50,23 @@ class Vector(object):
     def __str__(self):
         string = "Vector: ("
         string += '{}, '.format(self.elements[0])
+        # string += '{:.4e}, '.format(self.elements[0])
         for e in self.elements[1:]:
             string += '{}, '.format(e)
+            # string += '{:.4e}, '.format(e)
         return string[:-2] + ")"
 
 
     def __eq__(self, v):
+        """
+        Determines if two Vectors are equal or not.  Rounds off to 6
+        significant figures so if things are "close enough", like
+        comparing 0.999 and 1, returns True.
+        """
         if (isinstance(v, Vector)):
             if self.dimension != v.dimension:
                 return False
             length = len(self.elements)
-            # Gets complicated (no pun intended) due to complex numbers.
-            # If numbers are within 6 sig. figures we're saying they're equal.
             return all([(math.isclose(self.elements[i].real, v.elements[i].real,
                         abs_tol=10**-6) and math.isclose(self.elements[i].imag,
                         v.elements[i].imag, abs_tol=10**-6)) for i in

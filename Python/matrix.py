@@ -43,6 +43,14 @@ class Matrix(object):
         return self.row_list[i]
 
 
+    def __str__(self):
+        string = "Matrix:\n"
+        for r in self.row_list:
+            string += r.__str__()[8:]
+            string += "\n"
+        return string
+
+
     def __eq__(self, m):
         """
         Compare two matrices with == operator.  Return True if equal, False
