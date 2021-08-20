@@ -1,4 +1,5 @@
 import unittest
+import cmath
 from vector import Vector
 from matrix import Matrix
 
@@ -162,14 +163,42 @@ class TestMatrix(unittest.TestCase):
                                               Vector([2, 7])]))
 
     def test_transpose(self):
-        # Verify that rows and columns are swapped.
         v = Vector([1, 2, 3, 4])
         w = Vector([5, 6, 7, 8])
         m = Matrix([v, w])
+
+        # Verify that rows and columns are swapped.
         self.assertEqual(m.transpose(), Matrix([Vector([1, 5]),
                                                 Vector([2, 6]),
                                                 Vector([3, 7]),
                                                 Vector([4, 8])]))
+
+    def test_ht(self):
+        v = Vector([1, 2, complex(3, 4), 4])
+        w = Vector([5, 6, 7, 8])
+        m = Matrix([v, w])
+
+        # Verify that rows and columns are swapped and that complex
+        # numbers are correctly adjusted.
+        self.assertEqual(m.ht(), Matrix([Vector([1, 5]),
+                                         Vector([2, 6]),
+                                         Vector([complex(3, -4), 7]),
+                                         Vector([4, 8])]))
+
+    def test_diagonal(self):
+        # Verify diagonal from rectangular Matrix
+        self.assertEqual(self.m1.diagonal(), Vector([-1, 1]))
+
+        # Verify diagonal from square Matrix
+        self.assertEqual(self.m3.diagonal(), Vector([-1, 1, 10]))
+
+
+    def test_trace(self):
+        # Verify that trace not valid on rectangular Matrix
+        self.assertRaises(TypeError, lambda: self.m1.trace())
+
+        # Verify trace feature on square Matrix
+        self.assertEqual(self.m3.trace(), 10)
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,4 +1,5 @@
 from vector import Vector
+import cmath
 
 
 class Matrix(object):
@@ -102,12 +103,20 @@ class Matrix(object):
         return self.__add__(m.scale(-1))
 
 
+    def _matrix_not_square(self):
+        """
+        Return True if this is not a square Matrix.  Return False if this is a
+        square Matrix.
+        """
+        return self.columns != self.rows
+
+
     def identity(self):
         """
         Generates and returns an identity Matrix based on the dimensions of
         this Matrix.
         """
-        if self.columns != self.rows:
+        if self._matrix_not_square():
             raise TypeError("Identity only valid on square Matrix")
         new_rows = []
         one_index = 0
@@ -121,7 +130,7 @@ class Matrix(object):
 
     def shift(self, k):
         """
-        Uses constsant 'k' to shift the Matrix.  Result is returned as new
+        Uses constant 'k' to shift the Matrix.  Result is returned as new
         Matrix.
         """
         m1 = self.identity()
@@ -142,3 +151,42 @@ class Matrix(object):
             temp = [self.row_list[r][c] for r in range(self.rows)]
             new_rows.append(Vector(temp))
         return Matrix(new_rows)
+
+
+    def ht(self):
+        """
+        Determines the Hermitian transpose of this Matrix and returns it as
+        a new Matrix.  The first row of this Matrix is the first column of
+        the transpose, the second row of this Matrix is the second column
+        of the transpose, and so on.
+        """
+        new_rows = []
+        for c in range(self.columns):
+            temp = [complex(self.row_list[r][c]).conjugate() for r in
+                    range(self.rows)]
+            new_rows.append(Vector(temp))
+        return Matrix(new_rows)
+
+
+    def diagonal(self):
+        """
+        Finds the diagonal of the Matrix and returns it as a Vector.
+        """
+        elements = []
+        column_index = 0
+        for r in range(self.rows):
+            elements.append(self.row_list[r][column_index])
+            column_index += 1
+        return Vector(elements)
+
+
+    def trace(self):
+        """
+        Finds the trace of the Matrix (sum of elements on the diagonal)
+        and returns this as an integer/float (depends on what is on the
+        diagonal).
+        """
+        if self._matrix_not_square():
+            raise TypeError("Trace only valid on square Matrix")
+        return sum(self.diagonal().elements)
+
