@@ -126,3 +126,19 @@ class Matrix(object):
         """
         m1 = self.identity()
         return self.__add__(m1.scale(k))
+
+
+    def transpose(self):
+        """
+        Determines the transpose of this Matrix and returns it as a new Matrix.
+        The first row of this Matrix is the first column of the transpose, the
+        second row of this Matrix is the second column of the transpose, and
+        so on.
+        
+        This is NOT a Hermitian transpose.
+        """
+        new_rows = []
+        for c in range(self.columns):
+            temp = [self.row_list[r][c] for r in range(self.rows)]
+            new_rows.append(Vector(temp))
+        return Matrix(new_rows)

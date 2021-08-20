@@ -161,5 +161,15 @@ class TestMatrix(unittest.TestCase):
         self.assertEqual(m1.shift(3), Matrix([Vector([4, 2]),
                                               Vector([2, 7])]))
 
+    def test_transpose(self):
+        # Verify that rows and columns are swapped.
+        v = Vector([1, 2, 3, 4])
+        w = Vector([5, 6, 7, 8])
+        m = Matrix([v, w])
+        self.assertEqual(m.transpose(), Matrix([Vector([1, 5]),
+                                                Vector([2, 6]),
+                                                Vector([3, 7]),
+                                                Vector([4, 8])]))
+
 if __name__ == "__main__":
     unittest.main()
