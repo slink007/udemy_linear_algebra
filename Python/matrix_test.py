@@ -100,6 +100,7 @@ class TestMatrix(unittest.TestCase):
         self.assertEqual(Matrix([self.v2, self.v3]),
                          Matrix([self.v2, self.v3]))
 
+
     def test_add(self):
         # Verify that Matrices can only add to other Matrices
         self.assertRaises(TypeError, lambda: self.m1 + 1)
@@ -122,6 +123,7 @@ class TestMatrix(unittest.TestCase):
                          Matrix([Vector([5, 6, 7]), Vector([8, 9, 10])]),
                          Matrix([Vector([4, 6, 8]), Vector([10, 12, 14])]))
 
+
     def test_scale(self):
         # Verify that non-numeric scales are not permitted
         self.assertRaises(TypeError, lambda: self.m1.scale('text'))
@@ -138,6 +140,18 @@ class TestMatrix(unittest.TestCase):
         self.assertEqual(self.m5 - self.m6, Matrix([Vector([9, -1, -9]),
                                                     Vector([9, -1, -9])]))
 
+
+    def test_multiply(self):
+        # Verify that Matrices can only multily with other Matrices
+        self.assertRaises(TypeError, lambda: self.m1 * 1)
+        self.assertRaises(TypeError, lambda: self.m1 * -1.0)
+        self.assertRaises(TypeError, lambda: self.m1 * 'text')
+        self.assertRaises(TypeError, lambda: self.m1 * None)
+
+        # Verify that multiplication does not happen if dimensions are wrong
+        self.assertRaises(IndexError, lambda: self.m1 * self.m1)
+
+
     def test_identity(self):
         v = Vector([1, 2, 3])
         w = Vector([4, 5, 6])
@@ -152,6 +166,7 @@ class TestMatrix(unittest.TestCase):
         self.assertEqual(m2.identity(), Matrix([Vector([1, 0, 0]),
                                                 Vector([0, 1, 0]),
                                                 Vector([0, 0, 1])]))
+
 
     def test_shift(self):
         # Feature builds entirely off of other features tested here so only
@@ -173,6 +188,7 @@ class TestMatrix(unittest.TestCase):
                                                 Vector([3, 7]),
                                                 Vector([4, 8])]))
 
+
     def test_ht(self):
         v = Vector([1, 2, complex(3, 4), 4])
         w = Vector([5, 6, 7, 8])
@@ -184,6 +200,7 @@ class TestMatrix(unittest.TestCase):
                                          Vector([2, 6]),
                                          Vector([complex(3, -4), 7]),
                                          Vector([4, 8])]))
+
 
     def test_diagonal(self):
         # Verify diagonal from rectangular Matrix

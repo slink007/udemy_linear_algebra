@@ -103,6 +103,16 @@ class Matrix(object):
         return self.__add__(m.scale(-1))
 
 
+    def __mul__(self, m):
+        """
+        This Matrix pre-multiplies Matrix 'm' with the '*' operator.
+        """
+        if not isinstance(m, Matrix):
+            raise TypeError("Other item must be a Matrix")
+        if self.columns != m.rows:
+            raise IndexError("Incompatible Matrix dimensions")
+
+
     def _matrix_not_square(self):
         """
         Return True if this is not a square Matrix.  Return False if this is a
@@ -189,4 +199,3 @@ class Matrix(object):
         if self._matrix_not_square():
             raise TypeError("Trace only valid on square Matrix")
         return sum(self.diagonal().elements)
-
