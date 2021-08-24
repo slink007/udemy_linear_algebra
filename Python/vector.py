@@ -1,6 +1,7 @@
 from numbers import Complex
 import math
 from random import seed, randint, random
+from matrix import Matrix
 
 
 class Vector(object):
@@ -35,17 +36,14 @@ class Vector(object):
 
         self.index = -1
 
-
     def __iter__(self):
         return self
-
 
     def __next__(self):
         self.index += 1
         if self.index < self.dimension:
             return self.elements[self.index]
         raise StopIteration
-
 
     def __str__(self):
         string = "Vector: ("
@@ -55,7 +53,6 @@ class Vector(object):
             string += '{}, '.format(e)
             # string += '{:.4e}, '.format(e)
         return string[:-2] + ")"
-
 
     def __eq__(self, v):
         """
@@ -68,15 +65,13 @@ class Vector(object):
                 return False
             length = len(self.elements)
             return all([(math.isclose(self.elements[i].real, v.elements[i].real,
-                        abs_tol=10**-6) and math.isclose(self.elements[i].imag,
-                        v.elements[i].imag, abs_tol=10**-6)) for i in
+                                      abs_tol=10 ** -6) and math.isclose(self.elements[i].imag,
+                                                                         v.elements[i].imag, abs_tol=10 ** -6)) for i in
                         range(length)])
         return False
 
-
     def __getitem__(self, i):
         return self.elements[i]
-
 
     def __add__(self, v):
         """
@@ -92,7 +87,6 @@ class Vector(object):
                 enumerate(self.elements)]
         return Vector(temp)
 
-
     def __sub__(self, v):
         """
         Use '-' operator to subtract Vectors.  Result is returned as a new
@@ -103,6 +97,31 @@ class Vector(object):
             raise TypeError("Other item must be Vector")
         return self.__add__(v.scale(-1))
 
+    def __mul__(self, m):
+        """
+        Use '*' operator to multiply things with this Vector.  If 'm' is a
+        Matrix then post-multiply it with this Vector.  If 'm' is a Vector
+        then return the dot product of this Vector and 'm'.  If 'm' is
+        neither a Vector nor a Matrix then attempt to scale this Vector by
+        'm'.
+        """
+        if isinstance(m, Vector):
+            return self.__matmul__(m)
+        elif isinstance(m, Matrix):
+            if m.rows != self.dimension:
+                raise IndexError("Matrix is wrong size")
+
+            # Extract vectors from Matrix
+            vectors = []
+            for c_index in range(m.columns):
+                values = [m[r_index][c_index] for r_index in range(m.rows)]
+                vectors.append(Vector(values))
+
+            # Make a list of dot products
+            products = [self.__matmul__(v) for v in vectors]
+            return Vector(products)
+        else:
+            return self.scale(m)
 
     def __matmul__(self, v):
         """
@@ -114,8 +133,7 @@ class Vector(object):
         if self.dimension != v.dimension:
             raise IndexError("Vectors must be same size")
         return sum([self.elements[i] * v.elements[i] for i in
-                   range(self.dimension)])
-
+                    range(self.dimension)])
 
     def scale(self, k):
         """
@@ -128,13 +146,11 @@ class Vector(object):
         new_elements = [k * e for e in self.elements]
         return Vector(new_elements)
 
-
     def magnitude(self):
         """
         Finds the magnitude of the Vector and returns it.
         """
         return math.sqrt(self.__matmul__(Vector(self.elements)))
-
 
     def angle(self, v):
         """
@@ -150,7 +166,6 @@ class Vector(object):
         # intended for it to be.
         return math.degrees(angle)
 
-
     def unit(self):
         """
         Finds the unit vector which is aligned with this Vector and
@@ -163,7 +178,6 @@ class Vector(object):
             raise ZeroDivisionError("{} has no unit vector.".format(self))
         return self.scale(mu)
 
-
     def cross(self, v):
         """
         Returns a Vector which is the result of the cross product of
@@ -173,12 +187,12 @@ class Vector(object):
 
         if self.dimension != 3 or v.dimension != 3:
             raise IndexError(SIZE_MSG)
-        first = (self.elements[1] * v.elements[2]) -\
-            (self.elements[2] * v.elements[1])
-        second = (self.elements[2] * v.elements[0]) -\
-            (self.elements[0] * v.elements[2])
-        third = (self.elements[0] * v.elements[1]) -\
-            (self.elements[1] * v.elements[0])
+        first = (self.elements[1] * v.elements[2]) - \
+                (self.elements[2] * v.elements[1])
+        second = (self.elements[2] * v.elements[0]) - \
+                 (self.elements[0] * v.elements[2])
+        third = (self.elements[0] * v.elements[1]) - \
+                (self.elements[1] * v.elements[0])
         return Vector([first, second, third])
 
 

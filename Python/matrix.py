@@ -39,10 +39,8 @@ class Matrix(object):
         if self.columns == 0:
             raise TypeError("Need Vector or list of Vectors")
 
-
     def __getitem__(self, i):
         return self.row_list[i]
-
 
     def __str__(self):
         string = "Matrix:\n"
@@ -50,7 +48,6 @@ class Matrix(object):
             string += r.__str__()[8:]
             string += "\n"
         return string
-
 
     def __eq__(self, m):
         """
@@ -64,7 +61,6 @@ class Matrix(object):
         comparison = [self.row_list[i] == m.row_list[i] for i in
                       range(self.rows)]
         return all(comparison)
-
 
     def __add__(self, m):
         """
@@ -83,7 +79,6 @@ class Matrix(object):
 
         return Matrix(new_rows)
 
-
     def scale(self, k):
         """
         Scales each element within this Matrix by the value 'k' and returns
@@ -94,14 +89,12 @@ class Matrix(object):
         new_rows = [r.scale(k) for r in self.row_list]
         return Matrix(new_rows)
 
-
     def __sub__(self, m):
         """
         Subtract Matrix 'm' from this Matrix with the '-' operator.
         Returns the result as a new Matrix.
         """
         return self.__add__(m.scale(-1))
-
 
     def __mul__(self, m):
         """
@@ -112,14 +105,12 @@ class Matrix(object):
         if self.columns != m.rows:
             raise IndexError("Incompatible Matrix dimensions")
 
-
     def _matrix_not_square(self):
         """
         Return True if this is not a square Matrix.  Return False if this is a
         square Matrix.
         """
         return self.columns != self.rows
-
 
     def identity(self):
         """
@@ -137,7 +128,6 @@ class Matrix(object):
             new_rows.append(Vector(temp))
         return Matrix(new_rows)
 
-
     def shift(self, k):
         """
         Uses constant 'k' to shift the Matrix.  Result is returned as new
@@ -145,7 +135,6 @@ class Matrix(object):
         """
         m1 = self.identity()
         return self.__add__(m1.scale(k))
-
 
     def transpose(self):
         """
@@ -162,7 +151,6 @@ class Matrix(object):
             new_rows.append(Vector(temp))
         return Matrix(new_rows)
 
-
     def ht(self):
         """
         Determines the Hermitian transpose of this Matrix and returns it as
@@ -177,7 +165,6 @@ class Matrix(object):
             new_rows.append(Vector(temp))
         return Matrix(new_rows)
 
-
     def diagonal(self):
         """
         Finds the diagonal of the Matrix and returns it as a Vector.
@@ -188,7 +175,6 @@ class Matrix(object):
             elements.append(self.row_list[r][column_index])
             column_index += 1
         return Vector(elements)
-
 
     def trace(self):
         """
