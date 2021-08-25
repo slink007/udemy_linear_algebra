@@ -110,6 +110,22 @@ class TestVector(unittest.TestCase):
         # product of the two Vectors.
         self.assertEqual(self.v1 * self.v2, self.v1 @ self.v2)
 
+        # Verify that a Vector times a Matrix yields a Vector.
+        m = Matrix([Vector([1, 2, 3]),
+                    Vector([4, 5, 6]),
+                    Vector([7, 8, 9])])
+        self.assertEqual(self.v1 * m, Vector([30, 36, 42]))
+
+        # Verify that Matrix must be correct size to multiply
+        m = Matrix([Vector([1, 2, 3]),
+                    Vector([4, 5, 6])])
+        self.assertRaises(IndexError, lambda: self.v1 * m)
+
+        # Verify that vector does not multiply with types which
+        # are not a scalar, Vector, or Matrix.
+        self.assertRaises(TypeError, lambda: self.v1 * [1, 2, 3])
+        self.assertRaises(TypeError, lambda: self.v1 * 'text')
+        self.assertRaises(TypeError, lambda: self.v1 * None)
 
     def test_magnitude(self):
         # Verify correct magnitude of a vector

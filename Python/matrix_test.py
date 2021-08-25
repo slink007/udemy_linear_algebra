@@ -141,14 +141,12 @@ class TestMatrix(unittest.TestCase):
 
 
     def test_multiply(self):
-        # Verify that Matrices can only multily with other Matrices
-        self.assertRaises(TypeError, lambda: self.m1 * 1)
-        self.assertRaises(TypeError, lambda: self.m1 * -1.0)
-        self.assertRaises(TypeError, lambda: self.m1 * 'text')
-        self.assertRaises(TypeError, lambda: self.m1 * None)
-
         # Verify that multiplication does not happen if dimensions are wrong
         self.assertRaises(IndexError, lambda: self.m1 * self.m1)
+
+        # Verify that multiplication does happen if dimensions are correct
+        self.assertEqual(self.m1 * self.m3, Matrix([Vector([-9, 1, 9]),
+                                                    Vector([-100, 11, 100])]))
 
 
     def test_identity(self):

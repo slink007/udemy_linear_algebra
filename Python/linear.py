@@ -321,12 +321,35 @@ class Matrix(object):
 
     def __mul__(self, m):
         """
-        This Matrix pre-multiplies Matrix 'm' with the '*' operator.
+        Use '*' operator to multiply things with this Matrix.  If 'm' is a
+        Matrix then post-multiply it with this Matrix.  If 'm' is a Vector
+        then post-multiply it with this Matrix.  If 'm' is not a Vector or
+        a Matrix then attempt to scale this Matrix with 'm'.
         """
-        if not isinstance(m, Matrix):
-            raise TypeError("Other item must be a Matrix")
-        if self.columns != m.rows:
-            raise IndexError("Incompatible Matrix dimensions")
+        if isinstance(m, Vector):
+            if self.columns != m.dimension:
+                raise IndexError("Vector is wrong size")
+
+            elements = [r @ m for r in self.row_list]
+            return Vector(elements)
+        elif isinstance(m, Matrix):
+            if m.rows != self.columns:
+                raise IndexError("Matrix is wrong size")
+
+            # Column Vectors from 'm'
+            vectors = []
+            for c_index in range(m.columns):
+                values = [m[r_index][c_index] for r_index in range(m.rows)]
+                vectors.append(Vector(values))
+
+            # Find products and build resulting Matrix
+            new_rows = []
+            for r in self.row_list:
+                row = [r @ v for v in vectors]
+                new_rows.append(Vector(row))
+            return Matrix(new_rows)
+        else:
+            return self.scale(m)
 
     def _matrix_not_square(self):
         """
