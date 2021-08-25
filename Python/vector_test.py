@@ -1,5 +1,5 @@
 import unittest
-from vector import Vector, RandomVector
+from linear import Vector, RandomVector, Matrix
 from random import seed, randint
 
 
@@ -100,6 +100,16 @@ class TestVector(unittest.TestCase):
         # Verify that dot product can be done when Vectors contain imaginary
         # numbers.
         self.assertEqual(self.v6 @ self.v7, complex(11, 10))
+
+    def test_multiplication(self):
+        # Verify that a Vector times a constant is treated as a scale
+        # operation.
+        self.assertEqual(self.v1 * 3, Vector([3, 6, 9]))
+
+        # Verify that a Vector times another Vector results in the cross
+        # product of the two Vectors.
+        self.assertEqual(self.v1 * self.v2, self.v1 @ self.v2)
+
 
     def test_magnitude(self):
         # Verify correct magnitude of a vector

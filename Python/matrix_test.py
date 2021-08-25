@@ -1,7 +1,6 @@
 import unittest
 import cmath
-from vector import Vector
-from matrix import Matrix
+from linear import Vector, Matrix
 
 
 # unittest requires CamelCase
