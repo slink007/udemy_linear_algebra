@@ -1,7 +1,6 @@
 # Quick test to determine if matrix scaling is distributive or not.
 
-from vector import RandomVector
-from matrix import Matrix
+from linear import RandomVector, Matrix
 import random
 
 

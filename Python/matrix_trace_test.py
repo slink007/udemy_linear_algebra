@@ -1,7 +1,6 @@
 # Quick test to determine if matrix trace is linear or not.
 
-from vector import RandomVector
-from matrix import Matrix
+from linear import RandomVector, Matrix
 import random
 
 

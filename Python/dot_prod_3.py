@@ -16,7 +16,7 @@ change.  If only one Vector is scaled then polarity WILL change if that scale
 is negative but will NOT change if that scale is positive.
 """
 from random import seed, gauss, randint
-from vector import Vector
+from linear import Vector
 
 NUMBER_VECTORS = 6
 NUMBER_VALUES = 3

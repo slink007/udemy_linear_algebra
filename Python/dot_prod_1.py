@@ -16,7 +16,7 @@ dot product results so I'm just putting them into a list.
 from random import seed
 from random import gauss
 from random import randint
-from vector import Vector
+from linear import Vector
 
 
 NUMBER_VECTORS = 6
