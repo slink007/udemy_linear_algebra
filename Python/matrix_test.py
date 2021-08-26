@@ -141,13 +141,26 @@ class TestMatrix(unittest.TestCase):
 
 
     def test_multiply(self):
-        # Verify that multiplication does not happen if dimensions are wrong
+        # Verify that multiplication with another Matrix does not happen if
+        # dimensions are wrong.
         self.assertRaises(IndexError, lambda: self.m1 * self.m1)
 
-        # Verify that multiplication does happen if dimensions are correct
+        # Verify that multiplication with another Matrix does happen if
+        # dimensions are correct.
         self.assertEqual(self.m1 * self.m3, Matrix([Vector([-9, 1, 9]),
                                                     Vector([-100, 11, 100])]))
 
+        # Verify that multiplication with a Vector does not happen if the
+        # Vector size is wrong.
+        self.assertRaises(IndexError, lambda: self.m1 * Vector([2, 3]))
+
+        # Verify that multiplication with a Vector does happen if the Vector
+        # is correctly sized
+        v = Vector([1, 2, 3])
+        w = Vector([4, 5, 6])
+        x = Vector([7, 8, 9])
+        m = Matrix([v, w, x])
+        self.assertEqual(m * v, Vector([14, 32, 50]))
 
     def test_identity(self):
         v = Vector([1, 2, 3])
@@ -184,7 +197,6 @@ class TestMatrix(unittest.TestCase):
                                                 Vector([2, 6]),
                                                 Vector([3, 7]),
                                                 Vector([4, 8])]))
-
 
     def test_ht(self):
         v = Vector([1, 2, complex(3, 4), 4])

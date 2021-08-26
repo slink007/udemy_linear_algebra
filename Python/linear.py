@@ -65,9 +65,9 @@ class Vector(object):
                 return False
             length = len(self.elements)
             return all([(math.isclose(self.elements[i].real, v.elements[i].real,
-                                      abs_tol=10 ** -6) and math.isclose(self.elements[i].imag,
-                                                                         v.elements[i].imag, abs_tol=10 ** -6)) for i in
-                        range(length)])
+                         abs_tol=10 ** -6) and
+                         math.isclose(self.elements[i].imag, v.elements[i].imag,
+                         abs_tol=10 ** -6)) for i in range(length)])
         return False
 
     def __getitem__(self, i):
