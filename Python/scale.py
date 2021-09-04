@@ -22,9 +22,8 @@ plt.plot([c[0] for c in circle], [c[1] for c in circle], 'o')
 t1 = Matrix([Vector([1, 0]), Vector([1.25, 2])])
 
 # Since Matrix is a collection of Vectors we can use the rotation matrix to
-# scale each of them.  This list of scaled Vectors is then fed into a new
-# Matrix.
-circle2 = Matrix([t1 * c for c in circle])
+# scale each of them.
+circle2 = circle.scale(t1)
 plt.plot([c[0] for c in circle2], [c[1] for c in circle2], '-')
 
 plt.axis([-3.0, 3.0, -2.5, 2.5])  # [xmin, xmax, ymin, ymax]

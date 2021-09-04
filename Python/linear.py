@@ -306,11 +306,12 @@ class Matrix(object):
     def scale(self, k):
         """
         Scales each element within this Matrix by the value 'k' and returns
-        the result as a new Matrix.  Since each row of Matrix is a Vector we
-        just let Vector code do the checking and scaling.  This includes
-        letting TypeError bubble up in case 'k' is not a number.
+        the result as a new Matrix.
         """
-        new_rows = [r.scale(k) for r in self.row_list]
+        if isinstance(k, Matrix):
+            new_rows = [k * r for r in self.row_list]
+        else:
+            new_rows = [r.scale(k) for r in self.row_list]
         return Matrix(new_rows)
 
     def __sub__(self, m):

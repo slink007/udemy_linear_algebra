@@ -133,6 +133,17 @@ class TestMatrix(unittest.TestCase):
         self.assertEqual(self.m1.scale(2), Matrix([Vector([-2, 0, 2]),
                                                    Vector([-20, 2, 20])]))
 
+        # Verify that when scaling one Matrix with another, the other Matrix
+        # is multiplied by each row within the original Matrix.
+        v = Vector([1, 2])
+        w = Vector([3, 4])
+        x = Vector([5, 6])
+        y = Vector([7, 8])
+        m = Matrix([v, w])
+        n = Matrix([x, y])
+        self.assertEqual(m.scale(n), Matrix([Vector([17, 23]),
+                                             Vector([39, 53])]))
+
     def test_subtract(self):
         # Subtraction is primarily done in the addition method (after scaling
         # by -1) so not much testing here.
