@@ -16,7 +16,8 @@ class Vector(object):
             # Better to use a list?  Would number of elements ever change?
             # If not maybe scale method could just alter the current Vector
             # in place.
-            self.elements = tuple(elements)
+            # self.elements = tuple(elements)
+            self.elements = list(elements)
             self.dimension = len(elements)
             if self.dimension < 2:
                 raise IndexError
