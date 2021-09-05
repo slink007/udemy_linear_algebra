@@ -294,12 +294,33 @@ class Matrix(object):
         if not isinstance(m, Matrix):
             raise TypeError("Other item must be a Matrix")
         try:
-            if self.rows != m.rows:
+            if (self.rows != m.rows) or (self.columns != m.columns):
                 raise IndexError
             new_rows = [self.row_list[i] + m.row_list[i] for i in
                         range(self.rows)]
         except IndexError:
             raise IndexError("Matrices must be same size to add")
+
+        return Matrix(new_rows)
+
+    def hadamard(self, m):
+        """
+        Performs element by element multiplication between this Matrix and
+        Matrix 'm'.  The result is returned as a new Matrix.
+        """
+        if not isinstance(m, Matrix):
+            raise TypeError("Other item must be a Matrix")
+        try:
+            new_rows = []
+            if (self.rows != m.rows) or (self.columns != m.columns):
+                raise IndexError
+            for i in range(self.rows):
+                row = []
+                for j in range(self.columns):
+                    row.append(self.row_list[i][j] * m.row_list[i][j])
+                new_rows.append(Vector(row))
+        except IndexError:
+            raise IndexError("Matrices must be same size")
 
         return Matrix(new_rows)
 
